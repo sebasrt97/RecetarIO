@@ -22,7 +22,7 @@ cp .env.example .env
 docker-compose up -d --build
 
 #Instalar dependencias de la aplicación:
-docker exec -it recetario_app composer install
+docker exec -it recetario_app composer install.
 docker exec -it recetario_app npm install
 docker exec -it recetario_app npm run build
 docker exec -it recetario_app php artisan key:generate
