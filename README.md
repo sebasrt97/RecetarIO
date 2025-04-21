@@ -1,5 +1,6 @@
 #RecetarIO
 
+```bash
 #Dependencias necesarias:
 
 Docker Desktop (ejecución de contenedores)
@@ -7,7 +8,6 @@ Node.js (v18 o superior) y npm
 Composer (gestor de dependencias PHP)
 WSL2 para Windows
 Composer
-
 
 #Clonar e instalación del proyecto desde la rama 'dev'
 
