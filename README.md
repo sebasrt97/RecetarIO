@@ -4,11 +4,12 @@
 #Dependencias necesarias:
 
 Docker Desktop (ejecución de contenedores)
-Node.js (v18 o superior) y npm
 Composer (gestor de dependencias PHP)
 WSL2 para Windows
-Composer
 
+Opcional: Node.jsm, Composer, npm
+
+#Primera vez:
 #Clonar e instalación del proyecto desde la rama 'dev'
 
 git clone https://github.com/sebasrt97/RecetarIO
@@ -18,15 +19,25 @@ git checkout dev
 #Copiar el archivo de entorno:
 cp .env.example .env
 
-#Levantar el entorno con Docker Compose:
-docker-compose up -d --build
+#Inicializar el entorno, usar el script start.sh:
+./start.sh
+*Este comando construye la imagen de PHP/Laravel y ejecuta los RUN dentro del 'docker-compose.yml'.
+*Se limpia la caché de configuración de laravel
+*Ejecuta las migraciones de base de datos pendientes.
 
 #Instalar dependencias de la aplicación:
 docker exec -it recetario_app composer install.
 docker exec -it recetario_app npm install
 docker exec -it recetario_app npm run build
-docker exec -it recetario_app php artisan key:generate
-docker exec -it recetario_app php artisan migrate
+docker exec -it recetario_app php artisan key:generate (solo se ejecuta una vez)
+
+
+#Uso diario:
+#Arrancar el entorno: 
+./start.sh
+
+#Detener el entorno:
+./stop.sh
 
 #Pruebas: 
 http://localhost:8000/register para crear un nuevo usuario.
