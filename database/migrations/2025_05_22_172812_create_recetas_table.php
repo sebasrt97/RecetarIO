@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('recetas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('nombre')->unique(); // Aseguramos que el nombre de la receta sea único y para url
+            $table->text('descripcion')->nullable();  
+            $table->json('instrucciones'); // Instrucciones de la receta
+            $table->integer('tiempo_preparacion')->nullable();
+            $table->json('ingredientes')->nullable();
+            $table->integer('tiempo_coccion')->nullable();
+            $table->integer('porciones')->default(1);
+            $table->string('dificultad')->default('fácil');
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }

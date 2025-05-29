@@ -20,7 +20,7 @@ fi
 docker exec -it  recetario_app  php artisan config:clear
 
 #Aplica las migraciones
-docker exec -it recetario_app  php artisan migrate
+docker exec -it recetario_app php artisan migrate:fresh --seed
 
 
 echo "Laravel en http://localhost:8000 y phpMyAdmin en http://localhost:8080" 
