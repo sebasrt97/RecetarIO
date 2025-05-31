@@ -10,7 +10,10 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libpng-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo_mysql mbstring zip
+    default-mysql-client \
+    #Dado que no funciona GUI de la base de datos, tengo que interacturar con la base de datos desde la termianal
+    && docker-php-ext-install pdo pdo_mysql mbstring zip exif opcache
+    #exif es para que funcione la libreria de imagenes de laravel
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
