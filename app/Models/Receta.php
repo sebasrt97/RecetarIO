@@ -25,8 +25,8 @@ class Receta extends Model
 
     #Para facilitar la búsqueda por nombre en la base de datos
     protected $casts = [
-        'ingredientes' => 'array',
-        'instrucciones' => 'array',
+       // 'ingredientes' => 'array',
+     //   'instrucciones' => 'array',
     ];
 
     #Para mejorar la búsqueda y la legibilidad de las URLs
@@ -38,5 +38,19 @@ class Receta extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getInstruccionesAttribute($value)
+    {
+    // Intenta decodificar el valor. Si falla o no es JSON, devuelve un array vacío.
+    $decoded = json_decode($value, true);
+    return is_array($decoded) ? $decoded : [];
+    }
+
+    public function getIngredientesAttribute($value)
+    {
+        // Intenta decodificar el valor. Si falla o no es JSON, devuelve un array vacío.
+        $decoded = json_decode($value, true);
+        return is_array($decoded) ? $decoded : [];
     }
 }

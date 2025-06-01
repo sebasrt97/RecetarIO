@@ -1,73 +1,74 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>Detalles de la Receta: {{ $receta->nombre }}</h2>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">Detalles de la Receta: {{ $receta->nombre }}</h2>
     </x-slot>
 
-    <div>
-        <div>
-            <div>
+    <div class="py-4">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 space-y-4">
                 @if (session('success'))
-                    <p style="background-color: lightgreen; padding: 10px; border: 1px solid green; margin-bottom: 15px;">
+                    <p class="bg-green-100 text-green-800 border border-green-400 p-2 rounded text-sm">
                         {{ session('success') }}
                     </p>
                 @endif
 
-                <h1>{{ $receta->nombre }}</h1>
+                <h1 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $receta->nombre }}</h1>
 
                 @if ($receta->imagen)
-                    <div>
-                        <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen de {{ $receta->nombre }}" style="max-width: 400px; height: auto; display: block; margin-bottom: 15px;">
-                    </div>
+                    <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen de {{ $receta->nombre }}" class="w-full max-w-md rounded">
                 @endif
 
-                <p>
-                    <strong>Descripción:</strong> {{ $receta->descripcion }}
-                </p>
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
+                    <p><span class="font-semibold">Descripción:</span> {{ $receta->descripcion }}</p>
+                    <p><span class="font-semibold">Tiempo de Preparación:</span> {{ $receta->tiempo_preparacion }} minutos</p>
+                    <p><span class="font-semibold">Tiempo de Cocción:</span> {{ $receta->tiempo_coccion }} minutos</p>
+                    <p><span class="font-semibold">Porciones:</span> {{ $receta->porciones }}</p>
+                    <p><span class="font-semibold">Dificultad:</span> <span class="capitalize">{{ $receta->dificultad }}</span></p>
+                </div>
 
-                <p><strong>Tiempo de Preparación:</strong> {{ $receta->tiempo_preparacion }} minutos</p>
-                <p><strong>Tiempo de Cocción:</strong> {{ $receta->tiempo_coccion }} minutos</p>
-                <p><strong>Porciones:</strong> {{ $receta->porciones }}</p>
-                <p><strong>Dificultad:</strong> <span style="text-transform: capitalize;">{{ $receta->dificultad }}</span></p>
-
-                <h3>Ingredientes:</h3>
-                @if ($receta->ingredientes && count($receta->ingredientes) > 0)
-                    <ul>
-                        @foreach ($receta->ingredientes as $ingrediente)
-                            <li>{{ $ingrediente }}</li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p>No se especificaron ingredientes.</p>
-                @endif
-
-                <h3>Instrucciones:</h3>
-                @if ($receta->instrucciones && count($receta->instrucciones) > 0)
-                    <ol>
-                        @foreach ($receta->instrucciones as $instruccion)
-                            <li>{{ $instruccion }}</li>
-                        @endforeach
-                    </ol>
-                @else
-                    <p>No se especificaron instrucciones.</p>
-                @endif
-
-                <p>
-                    Receta creada por: <strong>{{ $receta->user->name ?? 'Usuario Desconocido' }}</strong>
-                </p>
-
-                <div style="margin-top: 20px;">
-                    <a href="{{ route('recetas.index') }}">Volver al Listado</a>
-
-                    @if (Auth::check())
-                        | <a href="{{ route('recetas.edit', $receta) }}">Editar Receta</a> |
-                        <form action="{{ route('recetas.destroy', $receta) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" style="background:none; border:none; color:red; cursor:pointer;">Eliminar Receta</button>
-                        </form>
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
+                    <h3 class="font-semibold mt-4">Ingredientes:</h3>
+                    @if ($receta->ingredientes && count($receta->ingredientes) > 0)
+                        <ul class="list-disc list-inside">
+                            @foreach ($receta->ingredientes as $ingrediente)
+                                <li>{{ $ingrediente }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No se especificaron ingredientes.</p>
                     @endif
                 </div>
 
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
+                    <h3 class="font-semibold mt-4">Instrucciones:</h3>
+                    @if ($receta->instrucciones && count($receta->instrucciones) > 0)
+                        <ol class="list-decimal list-inside">
+                            @foreach ($receta->instrucciones as $instruccion)
+                                <li>{{ $instruccion }}</li>
+                            @endforeach
+                        </ol>
+                    @else
+                        <p>No se especificaron instrucciones.</p>
+                    @endif
+                </div>
+
+                <p class="text-sm text-gray-800 dark:text-gray-200">
+                    Receta creada por: <span class="font-semibold">{{ $receta->user->name ?? 'Usuario Desconocido' }}</span>
+                </p>
+
+                <div class="flex items-center gap-4 text-sm mt-4">
+                    <a href="{{ route('recetas.index') }}" class="text-blue-600 dark:text-blue-400">Volver al Listado</a>
+
+                    @if (Auth::check())
+                        <a href="{{ route('recetas.edit', $receta) }}" class="text-yellow-600 dark:text-yellow-400">Editar Receta</a>
+
+                        <form action="{{ route('recetas.destroy', $receta) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 dark:text-red-400">Eliminar Receta</button>
+                        </form>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
