@@ -18,10 +18,10 @@ return new class extends Migration
             $table->text('descripcion')->nullable();  
             $table->longText('instrucciones');
             $table->integer('tiempo_preparacion')->nullable();
-            $table->longText('ingredientes');
             $table->integer('tiempo_coccion')->nullable();
             $table->integer('porciones')->default(1);
             $table->string('dificultad')->default('fácil');
+            $table->integer('margen_beneficio',5,2)->default(0); // Margen de beneficio en porcentaje
             $table->string('imagen')->nullable();
             $table->timestamps();
         });
