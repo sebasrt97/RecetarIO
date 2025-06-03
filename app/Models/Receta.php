@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Ingrediente;
 
 class Receta extends Model
 {
@@ -33,7 +35,7 @@ class Receta extends Model
      public function ingredientes(): BelongsToMany
     {
         return $this->belongsToMany(Ingrediente::class, 'receta_ingrediente')
-            ->withPivot('cantidad_bruta', 'unidad_receta_medida');   
+        ->withPivot('cantidad_bruta', 'unidad_receta_medida');    
     }
 
     #Para mejorar la búsqueda y la legibilidad de las URLs

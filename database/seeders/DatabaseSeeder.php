@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         // Llama a otros seeders
         $this->call([
-            UserSeeder::class, // ¡Asegúrate de que esta línea esté aquí!
+            UserSeeder::class, 
+            AlergenoSeeder::class,
+            IngredienteSeeder::class,
             // Otros seeders si los tienes, por ejemplo: CategoriaSeeder::class,
         ]);
 

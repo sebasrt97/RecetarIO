@@ -1,0 +1,1 @@
+<img src="<?php echo e(asset('logo/logo.png')); ?>" alt="RecetarIO Logo" <?php echo e($attributes); ?>><?php /**PATH /var/www/html/resources/views/components/application-logo.blade.php ENDPATH**/ ?>

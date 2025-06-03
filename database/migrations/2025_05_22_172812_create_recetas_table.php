@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('tiempo_preparacion')->nullable();
             $table->integer('tiempo_coccion')->nullable();
             $table->integer('porciones')->default(1);
-            $table->string('dificultad')->default('fácil');
+            $table->string('dificultad')->default('fácil'); // Margen de beneficio en porcentaje
             $table->decimal('margen_beneficio',5,2)->default(0); // Margen de beneficio en porcentaje
             $table->string('imagen')->nullable();
             $table->timestamps();

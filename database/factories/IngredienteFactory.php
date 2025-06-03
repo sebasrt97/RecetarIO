@@ -17,7 +17,10 @@ class IngredienteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nombre'=>this->faker->unique()->word(),
+            'precio'=> $this->faker->randomFloat(2, 0, 100),
+            'unidad_receta_medida' => $this->faker->randomElement(['kg', 'g', 'l', 'ml']),
+            'porcentaje_merma' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }

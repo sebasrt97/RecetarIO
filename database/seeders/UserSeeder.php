@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Usuario Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'), // Una contraseña sencilla
+            'password' => Hash::make('123456'), // Una contraseña sencilla
             'email_verified_at' => now(), // Marca el email como verificado
         ]);
 
