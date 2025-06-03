@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 
 class RecetaController extends Controller
 {
@@ -227,5 +230,19 @@ class RecetaController extends Controller
                         ->get();
         return view('recetas.index', compact('recetas'));
     }
+
+    ///////////////////// DOMPDF
+    
+    public function generarPDF(Receta $receta){
+        $receta->load('ingredientes.alergenos');
+
+        $pdf = Pdf::loadView('pdfs.receta', compact('receta'));
+
+        $pdf->setPaper('A4');
+
+        return $pdf->download('receta_' . $receta->nombre .'.pdf');
+
+    }
+
     
 }
