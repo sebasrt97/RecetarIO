@@ -6,7 +6,8 @@ use App\Models\Receta;
 use App\Models\Ingrediente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
+
 
 
 class RecetaController extends Controller
@@ -77,7 +78,7 @@ class RecetaController extends Controller
 
         //sincoronizar los ingredientes con la receta
 
-        iif(!empty($valido['ingredientes'])) {
+        if(!empty($valido['ingredientes'])) {
             $ingredientesArray = [];
             foreach ($valido['ingredientes'] as $ingrediente) {
                 $ingredientesArray[$ingrediente['id']] = [

@@ -33,7 +33,7 @@ class Receta extends Model
      public function ingredientes(): BelongsToMany
     {
         return $this->belongsToMany(Ingrediente::class, 'receta_ingrediente')
-            ->withPivot('cantidad_bruta', 'unidad_receta_medida')    
+            ->withPivot('cantidad_bruta', 'unidad_receta_medida');   
     }
 
     #Para mejorar la búsqueda y la legibilidad de las URLs
