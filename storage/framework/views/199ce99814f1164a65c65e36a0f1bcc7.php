@@ -47,9 +47,11 @@
                                 <?php echo e($ingrediente->pivot->unidad_receta_medida); ?> de
                                 <?php echo e($ingrediente->nombre); ?>
 
-                                <?php if($ingrediente->alergenos->isNotEmpty()): ?>
-                                    (Alérgenos: <?php echo e($ingrediente->alergenos->pluck('nombre')->join(', ')); ?>)
-                                <?php endif; ?>
+                                 <?php if($ingrediente->alergenos->isNotEmpty()): ?>
+                                (Alérgenos:
+                                
+                                **<?php echo e($ingrediente->alergenos->pluck('nombre')->join(', ')); ?>**)
+                            <?php endif; ?>
                             </li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>

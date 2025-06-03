@@ -35,9 +35,11 @@
                                 {{ $ingrediente->pivot->cantidad_bruta }}
                                 {{ $ingrediente->pivot->unidad_receta_medida }} de
                                 {{ $ingrediente->nombre }}
-                                @if ($ingrediente->alergenos->isNotEmpty())
-                                    (Alérgenos: {{ $ingrediente->alergenos->pluck('nombre')->join(', ') }})
-                                @endif
+                                 @if ($ingrediente->alergenos->isNotEmpty())
+                                (Alérgenos:
+                                {{-- Usa pluck('nombre') para obtener solo los nombres y join(', ') para unirlos --}}
+                                **{{ $ingrediente->alergenos->pluck('nombre')->join(', ') }}**)
+                            @endif
                             </li>
                             @endforeach
                         </ul>

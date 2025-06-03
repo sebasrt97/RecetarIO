@@ -44,9 +44,9 @@ class RecetaSeeder extends Seeder
             'imagen' => 'recetas/platop.png',
         ]);
 
-            $harina = Ingrediente::where('nombre', 'Harina')->first();
+            $harina = Ingrediente::where('nombre', 'Harina de Trigo')->first();
             $tomate = Ingrediente::where('nombre', 'Tomate')->first();
-            $aceite = Ingrediente::where('nombre', 'Aceite de Oliva')->first();
+            $aceite = Ingrediente::where('nombre', 'Aceite de oliva')->first();
 
             $receta1->ingredientes()->attach([
             $harina->id => ['cantidad_bruta' => 0.2, 'unidad_receta_medida' => 'gr'],
