@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('alergenos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre')->unique();
+            $table->timestamps();
         });
     }
 
