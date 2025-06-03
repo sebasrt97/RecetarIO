@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
     
     Route::resource('recetas', RecetaController::class);
     Route::get('/recetas/search', [App\Http\Controllers\RecetaController::class, 'search'])->name('recetas.search');
+
+    Route::get('/recetas/{receta}/pdf', [RecetaController::class, 'generarPdf'])->name('recetas.pdf');
 });
 
 require __DIR__.'/auth.php';

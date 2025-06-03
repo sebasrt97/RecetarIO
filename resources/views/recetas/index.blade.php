@@ -65,13 +65,25 @@
                                             {{ $receta->user->name ?? 'Desconocido' }}
                                         </td>
                                         <td class="px-2 py-1 text-center space-x-2">
+                                            {{-- Enlace para Ver Detalles --}}
                                             <a href="{{ route('recetas.show', $receta) }}" class="underline">Ver</a>
+
+                                            {{-- AÑADE AQUÍ EL ENLACE/BOTÓN PARA DESCARGAR PDF --}}
+                                            <a href="{{ route('recetas.pdf', $receta) }}"
+                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                                Descargar PDF
+                                            </a>
+                                            {{-- FIN DEL ENLACE/BOTÓN DE DESCARGA PDF --}}
+
                                             @if (Auth::check())
-                                                <a href="{{ route('recetas.edit', $receta) }}" class="underline">Editar</a>
+                                                {{-- Enlace para Editar (añadido ms-3 para espaciado consistente) --}}
+                                                <a href="{{ route('recetas.edit', $receta) }}" class="underline ms-3">Editar</a>
+                                                
+                                                {{-- Formulario para Eliminar (añadido ms-3 para espaciado consistente) --}}
                                                 <form action="{{ route('recetas.destroy', $receta) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline">Eliminar</button>
+                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline ms-3">Eliminar</button>
                                                 </form>
                                             @endif
                                         </td>
