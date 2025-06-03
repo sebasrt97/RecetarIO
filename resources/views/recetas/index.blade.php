@@ -1,45 +1,87 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>Listado de Recetas</h2>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">
+            Listado de Recetas
+        </h2>
     </x-slot>
 
-    <div>
-        <div>
-            <div>
-                <a href="{{ route('recetas.create') }}">Añadir Nueva Receta</a>
+    <div class="py-4">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+
+                <a href="{{ route('recetas.create') }}" class="text-sm px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded">
+                    Añadir Receta
+                </a>
+
+                @if (session('success'))
+                    <div class="mt-4 text-sm p-2 bg-green-50 text-green-700 border border-green-300 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('recetas.search') }}" method="GET" class="mt-4 flex">
+                    <input type="text" name="query" value="{{ request('query') }}"
+                           placeholder="Buscar..."
+                           class="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-l text-sm dark:bg-gray-800 dark:text-white">
+                    <button type="submit"
+                            class="px-3 py-1 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-r text-sm">
+                        Buscar
+                    </button>
+                </form>
 
                 @if ($recetas->isEmpty())
-                    <p>No hay recetas disponibles.</p>
+                    <p class="mt-4 text-gray-600 dark:text-gray-400 text-sm">No hay recetas.</p>
                 @else
-                    <table style="width:100%; border: 1px solid black; border-collapse: collapse; margin-top: 15px;">
-                        <thead style="background-color: #f0f0f0;">
-                            <tr>
-                                <th style="border: 1px solid black; padding: 5px; text-align: center;">Nombre</th>
-                                <th style="border: 1px solid black; padding: 5px; text-align: center;">Descripción</th>
-                                <th style="border: 1px solid black; padding: 5px; text-align: center;">Tiempo preparación.</th>
-                                <th style="border: 1px solid black; padding: 5px; text-align: center;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($recetas as $receta)
+                    <div class="mt-4 overflow-x-auto">
+                        <table class="w-full text-sm border-collapse">
+                            <thead class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-b dark:border-gray-600">
                                 <tr>
-                                    <td style="border: 1px solid black; padding: 5px; text-align: center;">{{ $receta->name }}</td>
-                                    <td style="border: 1px solid black; padding: 5px; text-align: center;">{{ Str::limit($receta->description, 30) }}</td>
-                                    <td style="border: 1px solid black; padding: 5px; text-align: center;">{{ $receta->preparation_time }} min</td>
-                                    <td style="border: 1px solid black; padding: 5px; text-align: center;">
-                                        <a href="{{ route('recetas.show', $receta) }}">Ver</a> |
-                                        <a href="{{ route('recetas.edit', $receta) }}">Editar</a> |
-                                        <form action="{{ route('recetas.destroy', $receta) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('¿Eliminar?');" style="background:none; border:none; color:red; cursor:pointer;">Eliminar</button>
-                                        </form>
-                                    </td>
+                                    <th class="px-2 py-1 text-center">Nombre</th>
+                                    <th class="px-2 py-1 text-center">Descripción</th>
+                                    <th class="px-2 py-1 text-center">Tiempo</th>
+                                    <th class="px-2 py-1 text-center">Dificultad</th>
+                                    <th class="px-2 py-1 text-center">Usuario</th>
+                                    <th class="px-2 py-1 text-center">Acciones</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($recetas as $receta)
+                                    <tr class="border-b dark:border-gray-700">
+                                        <td class="px-2 py-1 text-center">
+                                            <a href="{{ route('recetas.show', $receta) }}" class="text-gray-800 dark:text-gray-100 underline">
+                                                {{ $receta->nombre }}
+                                            </a>
+                                        </td>
+                                        <td class="px-2 py-1 text-center">
+                                            {{ Str::limit($receta->descripcion, 100) }}
+                                        </td>
+                                        <td class="px-2 py-1 text-center">
+                                            {{ $receta->tiempo_preparacion }} min
+                                        </td>
+                                        <td class="px-2 py-1 text-center">
+                                            {{ ucfirst($receta->dificultad) }}
+                                        </td>
+                                        <td class="px-2 py-1 text-center">
+                                            {{ $receta->user->name ?? 'Desconocido' }}
+                                        </td>
+                                        <td class="px-2 py-1 text-center space-x-2">
+                                            <a href="{{ route('recetas.show', $receta) }}" class="underline">Ver</a>
+                                            @if (Auth::check())
+                                                <a href="{{ route('recetas.edit', $receta) }}" class="underline">Editar</a>
+                                                <form action="{{ route('recetas.destroy', $receta) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline">Eliminar</button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
+
             </div>
         </div>
     </div>

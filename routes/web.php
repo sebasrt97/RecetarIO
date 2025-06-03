@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     Route::resource('recetas', RecetaController::class);
+    Route::get('/recetas/search', [App\Http\Controllers\RecetaController::class, 'search'])->name('recetas.search');
 });
 
 require __DIR__.'/auth.php';

@@ -1,64 +1,85 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2>Editar Receta: {{ $receta->name }}</h2>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">Editar Receta: {{ $receta->nombre }}</h2>
     </x-slot>
 
-    <div>
-        <div>
-            <div>
-                <form method="POST" action="{{ route('recetas.update', $receta) }}">
+    <div class="py-4">
+        <div class="max-w-xl mx-auto px-4">
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
+                <form method="POST" action="{{ route('recetas.update', $receta) }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
                     @method('PUT')
 
+                    @php
+                        function input($label, $id, $type, $name, $value, $required = false) {
+                            $req = $required ? 'required' : '';
+                            return <<<HTML
+                            <div>
+                                <label for="$id" class="block text-sm text-gray-700 dark:text-gray-300">$label</label>
+                                <input type="$type" id="$id" name="$name" value="$value" $req
+                                       class="w-full border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                                @error('$name') <span class="text-red-600 text-sm">{{ \$message }}</span> @enderror
+                            </div>
+                            HTML;
+                        }
+
+                        function textarea($label, $id, $name, $content, $required = false) {
+                            $req = $required ? 'required' : '';
+                            return <<<HTML
+                            <div>
+                                <label for="$id" class="block text-sm text-gray-700 dark:text-gray-300">$label</label>
+                                <textarea id="$id" name="$name" $req
+                                          class="w-full border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">$content</textarea>
+                                @error('$name') <span class="text-red-600 text-sm">{{ \$message }}</span> @enderror
+                            </div>
+                            HTML;
+                        }
+
+                        function select($label, $id, $name, $selected) {
+                            $opts = ['fácil', 'media', 'difícil'];
+                            $options = "<option value=\"\">Selecciona una dificultad</option>";
+                            foreach ($opts as $opt) {
+                                $sel = $selected === $opt ? 'selected' : '';
+                                $options .= "<option value=\"$opt\" $sel>" . ucfirst($opt) . "</option>";
+                            }
+                            return <<<HTML
+                            <div>
+                                <label for="$id" class="block text-sm text-gray-700 dark:text-gray-300">$label</label>
+                                <select id="$id" name="$name"
+                                        class="w-full border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                                    $options
+                                </select>
+                                @error('$name') <span class="text-red-600 text-sm">{{ \$message }}</span> @enderror
+                            </div>
+                            HTML;
+                        }
+                    @endphp
+
+                    {!! input('Nombre de la Receta', 'nombre', 'text', 'nombre', old('nombre', $receta->nombre), true) !!}
+                    {!! textarea('Descripción', 'descripcion', 'descripcion', old('descripcion', $receta->descripcion)) !!}
+                    {!! textarea('Instrucciones', 'instrucciones', 'instrucciones', old('instrucciones', implode("\n", $receta->instrucciones ?? [])), true) !!}
+                    {!! input('Tiempo de Preparación (minutos)', 'tiempo_preparacion', 'number', 'tiempo_preparacion', old('tiempo_preparacion', $receta->tiempo_preparacion)) !!}
+                    {!! input('Tiempo de Cocción (minutos)', 'tiempo_coccion', 'number', 'tiempo_coccion', old('tiempo_coccion', $receta->tiempo_coccion)) !!}
+                    {!! input('Porciones', 'porciones', 'number', 'porciones', old('porciones', $receta->porciones)) !!}
+                    {!! select('Dificultad', 'dificultad', 'dificultad', old('dificultad', $receta->dificultad)) !!}
+                    {!! textarea('Ingredientes', 'ingredientes', 'ingredientes', old('ingredientes', implode("\n", $receta->ingredientes ?? []))) !!}
+
                     <div>
-                        <label for="name">Nombre de la Receta:</label><br>
-                        <input type="text" id="name" name="name" value="{{ old('name', $receta->name) }}" required><br>
-                        @error('name') <span style="color: red;">{{ $message }}</span><br> @enderror
+                        <label for="imagen" class="block text-sm text-gray-700 dark:text-gray-300">Imagen de la Receta</label>
+                        @if ($receta->imagen)
+                            <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen actual de la receta" class="w-48 mb-2 rounded">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Cambiar imagen:</p>
+                        @endif
+                        <input type="file" id="imagen" name="imagen" accept="image/*"
+                               class="text-sm text-gray-700 dark:text-gray-300">
+                        @error('imagen') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     </div>
 
-                    <div style="margin-top: 10px;">
-                        <label for="description">Descripción:</label><br>
-                        <textarea id="description" name="description">{{ old('description', $receta->description) }}</textarea><br>
-                        @error('description') <span style="color: red;">{{ $message }}</span><br> @enderror
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <label for="instructions">Instrucciones:</label><br>
-                        <textarea id="instructions" name="instructions" required>{{ old('instructions', $receta->instructions) }}</textarea><br>
-                        @error('instructions') <span style="color: red;">{{ $message }}</span><br> @enderror
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <label for="preparation_time">Tiempo de Preparación (minutos):</label><br>
-                        <input type="number" id="preparation_time" name="preparation_time" value="{{ old('preparation_time', $receta->preparation_time) }}"><br>
-                        @error('preparation_time') <span style="color: red;">{{ $message }}</span><br> @enderror
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <label for="cooking_time">Tiempo de Cocción (minutos):</label><br>
-                        <input type="number" id="cooking_time" name="cooking_time" value="{{ old('cooking_time', $receta->cooking_time) }}"><br>
-                        @error('cooking_time') <span style="color: red;">{{ $message }}</span><br> @enderror
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <label for="servings">Porciones:</label><br>
-                        <input type="number" id="servings" name="servings" value="{{ old('servings', $receta->servings) }}"><br>
-                        @error('servings') <span style="color: red;">{{ $message }}</span><br> @enderror
-                    </div>
-
-                    <div style="margin-top: 10px;">
-                        <label for="difficulty">Dificultad:</label><br>
-                        <select id="difficulty" name="difficulty">
-                            <option value="">Selecciona una dificultad</option>
-                            <option value="Fácil" {{ old('difficulty', $receta->difficulty) == 'Fácil' ? 'selected' : '' }}>Fácil</option>
-                            <option value="Media" {{ old('difficulty', $receta->difficulty) == 'Media' ? 'selected' : '' }}>Media</option>
-                            <option value="Difícil" {{ old('difficulty', $receta->difficulty) == 'Difícil' ? 'selected' : '' }}>Difícil</option>
-                        </select><br>
-                        @error('difficulty') <span style="color: red;">{{ $message }}</span><br> @enderror
-                    </div>
-
-                    <div style="margin-top: 15px;">
-                        <button type="submit">Actualizar Receta</button>
+                    <div class="pt-2">
+                        <button type="submit"
+                                class="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded">
+                            Actualizar Receta
+                        </button>
                     </div>
                 </form>
             </div>

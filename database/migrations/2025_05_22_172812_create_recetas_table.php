@@ -16,12 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Id foreign para el usuario que creó la receta y se elimina ese usuario se elimna todo 
             $table->string('nombre')->unique(); // Aseguramos que el nombre de la receta sea único y para url
             $table->text('descripcion')->nullable();  
-            $table->json('instrucciones');
+            $table->longText('instrucciones');
             $table->integer('tiempo_preparacion')->nullable();
-            $table->json('ingredientes');
             $table->integer('tiempo_coccion')->nullable();
             $table->integer('porciones')->default(1);
             $table->string('dificultad')->default('fácil');
+            $table->integer('margen_beneficio',5,2)->default(0); // Margen de beneficio en porcentaje
             $table->string('imagen')->nullable();
             $table->timestamps();
         });
