@@ -7,8 +7,6 @@ use App\Models\Ingrediente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
-
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
@@ -234,15 +232,10 @@ class RecetaController extends Controller
     ///////////////////// DOMPDF
     
     public function generarPDF(Receta $receta){
-        $receta->load('ingredientes.alergenos');
-
-        $pdf = Pdf::loadView('pdfs.receta', compact('receta'));
-
-        $pdf->setPaper('A4');
-
-        return $pdf->download('receta_' . $receta->nombre .'.pdf');
-
+    $receta->load('ingredientes.alergenos');
+    $pdf = Pdf::loadView('pdfs.receta', compact('receta')); 
+    $pdf->setPaper('A4');
+    return $pdf->download('receta_' . $receta->nombre .'.pdf');
     }
-
     
 }

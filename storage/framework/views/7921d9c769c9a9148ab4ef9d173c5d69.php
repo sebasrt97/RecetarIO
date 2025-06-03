@@ -79,13 +79,25 @@
 
                                         </td>
                                         <td class="px-2 py-1 text-center space-x-2">
+                                            
                                             <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="underline">Ver</a>
+
+                                            
+                                            <a href="<?php echo e(route('recetas.pdf', $receta)); ?>"
+                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                                Descargar PDF
+                                            </a>
+                                            
+
                                             <?php if(Auth::check()): ?>
-                                                <a href="<?php echo e(route('recetas.edit', $receta)); ?>" class="underline">Editar</a>
+                                                
+                                                <a href="<?php echo e(route('recetas.edit', $receta)); ?>" class="underline ms-3">Editar</a>
+                                                
+                                                
                                                 <form action="<?php echo e(route('recetas.destroy', $receta)); ?>" method="POST" class="inline">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('DELETE'); ?>
-                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline">Eliminar</button>
+                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline ms-3">Eliminar</button>
                                                 </form>
                                             <?php endif; ?>
                                         </td>
@@ -108,5 +120,4 @@
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?>
-<?php /**PATH /var/www/html/resources/views/recetas/index.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH /var/www/html/resources/views/recetas/index.blade.php ENDPATH**/ ?>
