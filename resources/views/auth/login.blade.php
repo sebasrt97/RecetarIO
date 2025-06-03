@@ -24,6 +24,8 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
+        
+
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
@@ -33,15 +35,25 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
+
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border rounded-md text-xs text-white dark:text-gray-800 tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 ">
+                     {{ __('REGISTRARSE') }}
+                </a>
+            @endif
+
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                <a class="ml-4 underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
                     {{ __('¿Olvidaste su contraseña?') }}
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+          
+            <x-primary-button class="">
                 {{ __('Iniciar sesión') }}
             </x-primary-button>
+
+            
         </div>
     </form>
 </x-guest-layout>
