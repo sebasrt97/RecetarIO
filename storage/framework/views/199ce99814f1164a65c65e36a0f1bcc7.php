@@ -41,7 +41,16 @@
                     <?php if($receta->ingredientes && count($receta->ingredientes) > 0): ?>
                         <ul class="list-disc list-inside">
                             <?php $__currentLoopData = $receta->ingredientes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ingrediente): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <li><?php echo e($ingrediente); ?></li>
+                                <li>
+                                <?php echo e($ingrediente->pivot->cantidad_bruta); ?>
+
+                                <?php echo e($ingrediente->pivot->unidad_receta_medida); ?> de
+                                <?php echo e($ingrediente->nombre); ?>
+
+                                <?php if($ingrediente->alergenos->isNotEmpty()): ?>
+                                    (Alérgenos: <?php echo e($ingrediente->alergenos->pluck('nombre')->join(', ')); ?>)
+                                <?php endif; ?>
+                            </li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     <?php else: ?>
@@ -51,18 +60,20 @@
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                     <h3 class="font-semibold mt-4">Instrucciones:</h3>
-                    <?php if($receta->instrucciones && count($receta->instrucciones) > 0): ?>
+
+
+                    <?php if(is_array($receta->instrucciones)): ?>
                         <ol class="list-decimal list-inside">
                             <?php $__currentLoopData = $receta->instrucciones; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $instruccion): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li><?php echo e($instruccion); ?></li>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </ol>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>    
+                        </ol>                    
                     <?php else: ?>
-                        <p>No se especificaron instrucciones.</p>
+                        <p>Instrucción Única: [<?php echo e($receta->instrucciones); ?>]</p>
                     <?php endif; ?>
                 </div>
 
-                <p class="text-sm text-gray-800 dark:text-gray-200">
+                <p class="text-sm text-gray-800 dark:text-gray-200 mt-4">
                     Receta creada por: <span class="font-semibold"><?php echo e($receta->user->name ?? 'Usuario Desconocido'); ?></span>
                 </p>
 

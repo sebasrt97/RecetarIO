@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Ingrediente;
@@ -27,6 +26,10 @@ class Receta extends Model
         'imagen',
     ];
 
+    protected $casts = [
+        'instrucciones' => 'array', // Esto permite que las instrucciones se manejen como un array en lugar de una cadena JSON
+    ];
+
     #Relaciones
      public function user(): BelongsTo
     {
@@ -44,12 +47,7 @@ class Receta extends Model
     {
         return 'nombre';
     }  
-    public function getInstruccionesAttribute($value)
-    {
-    // Intenta decodificar el valor. Si falla o no es JSON, devuelve un array vacío.
-    $codigo = json_decode($value, true);
-    return is_array($codigo) ? $codigo : [];
-    }
+
    
     # funciones publicas para obtener los ingredientes y sus cantidades
 

@@ -69,7 +69,7 @@ class RecetaController extends Controller
             'user_id' => auth()->id(), // Asignar el ID del usuario autenticado
             'nombre' => $valido['nombre'],
             'descripcion' => $valido['descripcion'],
-            'instrucciones' => json_encode($instruccionesArray), // Almacenar como JSON
+            'instrucciones' => $instruccionesArray, // Almacenar como JSON
             'tiempo_preparacion' => $valido['tiempo_preparacion'],
             'tiempo_coccion' => $valido['tiempo_coccion'],
             'porciones' => $valido['porciones'] ?? 1, // Default si es null
@@ -102,6 +102,7 @@ class RecetaController extends Controller
     public function show(Receta $receta)
     {
         $receta->load('ingredientes.alergenos'); 
+        
         return view('recetas.show', compact('receta'));
     }
 
@@ -173,7 +174,7 @@ class RecetaController extends Controller
         $receta->update([
             'nombre' => $valido['nombre'],
             'descripcion' => $valido['descripcion'],
-            'instrucciones' => json_encode($instruccionesArray),
+            'instrucciones' => $instruccionesArray,
             'tiempo_preparacion' => $valido['tiempo_preparacion'],
             'tiempo_coccion' => $valido['tiempo_coccion'],
             'porciones' => $valido['porciones'] ?? 1,
@@ -233,6 +234,7 @@ class RecetaController extends Controller
     
     public function generarPDF(Receta $receta){
     $receta->load('ingredientes.alergenos');
+
     $pdf = Pdf::loadView('pdfs.receta', compact('receta')); 
     $pdf->setPaper('A4');
     return $pdf->download('receta_' . $receta->nombre .'.pdf');

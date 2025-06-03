@@ -31,7 +31,14 @@
                     @if ($receta->ingredientes && count($receta->ingredientes) > 0)
                         <ul class="list-disc list-inside">
                             @foreach ($receta->ingredientes as $ingrediente)
-                                <li>{{ $ingrediente }}</li>
+                                <li>
+                                {{ $ingrediente->pivot->cantidad_bruta }}
+                                {{ $ingrediente->pivot->unidad_receta_medida }} de
+                                {{ $ingrediente->nombre }}
+                                @if ($ingrediente->alergenos->isNotEmpty())
+                                    (Alérgenos: {{ $ingrediente->alergenos->pluck('nombre')->join(', ') }})
+                                @endif
+                            </li>
                             @endforeach
                         </ul>
                     @else
@@ -41,18 +48,20 @@
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                     <h3 class="font-semibold mt-4">Instrucciones:</h3>
-                    @if ($receta->instrucciones && count($receta->instrucciones) > 0)
+
+
+                    @if (is_array($receta->instrucciones))
                         <ol class="list-decimal list-inside">
                             @foreach ($receta->instrucciones as $instruccion)
                                 <li>{{ $instruccion }}</li>
-                            @endforeach
-                        </ol>
+                            @endforeach    
+                        </ol>                    
                     @else
-                        <p>No se especificaron instrucciones.</p>
+                        <p>Instrucción Única: [{{ $receta->instrucciones }}]</p>
                     @endif
                 </div>
 
-                <p class="text-sm text-gray-800 dark:text-gray-200">
+                <p class="text-sm text-gray-800 dark:text-gray-200 mt-4">
                     Receta creada por: <span class="font-semibold">{{ $receta->user->name ?? 'Usuario Desconocido' }}</span>
                 </p>
 
