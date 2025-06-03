@@ -14,10 +14,12 @@ use App\Http\Controllers\RecetaController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+/*
 Route::get('/', function () {
-    return view('welcome');
+    return view('/','/login');
 });
+*/
+Route::redirect('/', '/login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
