@@ -19,11 +19,23 @@
                 @endif
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
-                    <p><span class="font-semibold">Descripción:</span> {{ $receta->descripcion }}</p>
+                    <p>
+                    <span class="font-semibold block mb-1">Descripción:</span>
+                    <span class="block mt-2 mb-1">{{ $receta->descripcion }}</span>
+                    </p>                   
                     <p><span class="font-semibold">Tiempo de Preparación:</span> {{ $receta->tiempo_preparacion }} minutos</p>
                     <p><span class="font-semibold">Tiempo de Cocción:</span> {{ $receta->tiempo_coccion }} minutos</p>
                     <p><span class="font-semibold">Porciones:</span> {{ $receta->porciones }}</p>
                     <p><span class="font-semibold">Dificultad:</span> <span class="capitalize">{{ $receta->dificultad }}</span></p>
+                </div>
+
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
+                    <h3 class="font-semibold mt-4">Merma y Escandallo:</h3>
+                    <p><span class="font-semibold">Coste Bruto Total:</span> {{number_format($receta->getCostebrutoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Neto Total:</span> {{number_format($receta->getCosteNetoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Porcion:</span> {{number_format($receta->getCostePorPorcion(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Neto Total:</span> {{number_format($receta->getCosteNetoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Precio Venta Por Porcion:</span> {{number_format($receta->getPrecioVentaPorPorcion(),2,',','.')}} €</p>
                 </div>
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
@@ -31,7 +43,16 @@
                     @if ($receta->ingredientes && count($receta->ingredientes) > 0)
                         <ul class="list-disc list-inside">
                             @foreach ($receta->ingredientes as $ingrediente)
-                                <li>{{ $ingrediente }}</li>
+                                <li>
+                                {{ $ingrediente->pivot->cantidad_bruta }}
+                                {{ $ingrediente->pivot->unidad_receta_medida }} de
+                                {{ $ingrediente->nombre }}
+                                 @if ($ingrediente->alergenos->isNotEmpty())
+                                (Alérgenos:
+                                {{-- Usa pluck('nombre') para obtener solo los nombres y join(', ') para unirlos --}}
+                                **{{ $ingrediente->alergenos->pluck('nombre')->join(', ') }}**)
+                            @endif
+                            </li>
                             @endforeach
                         </ul>
                     @else
@@ -41,26 +62,28 @@
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                     <h3 class="font-semibold mt-4">Instrucciones:</h3>
-                    @if ($receta->instrucciones && count($receta->instrucciones) > 0)
+
+
+                    @if (is_array($receta->instrucciones))
                         <ol class="list-decimal list-inside">
                             @foreach ($receta->instrucciones as $instruccion)
                                 <li>{{ $instruccion }}</li>
-                            @endforeach
-                        </ol>
+                            @endforeach    
+                        </ol>                    
                     @else
-                        <p>No se especificaron instrucciones.</p>
+                        <p>Instrucción Única: [{{ $receta->instrucciones }}]</p>
                     @endif
                 </div>
 
-                <p class="text-sm text-gray-800 dark:text-gray-200">
+                <p class="text-sm text-gray-800 dark:text-gray-200 mt-4">
                     Receta creada por: <span class="font-semibold">{{ $receta->user->name ?? 'Usuario Desconocido' }}</span>
                 </p>
-
+    
                 <div class="flex items-center gap-4 text-sm mt-4">
-                    <a href="{{ route('recetas.index') }}" class="text-blue-600 dark:text-blue-400">Volver al Listado</a>
+                    <a href="{{ route('recetas.index') }}" class="text-gray-800 dark:text-gray-200 underline">Volver al Listado</a>
 
                     @if (Auth::check())
-                        <a href="{{ route('recetas.edit', $receta) }}" class="text-yellow-600 dark:text-yellow-400">Editar Receta</a>
+                        <a href="{{ route('recetas.edit', $receta) }}" class="text-gray-800 dark:text-gray-200 underline">Editar Receta</a>
 
                         <form action="{{ route('recetas.destroy', $receta) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" class="inline">
                             @csrf

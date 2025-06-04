@@ -94,6 +94,7 @@ unset($__errorArgs, $__bag); ?>
                             </button>
                         </div>
                     </template>
+                    
                     <div>
                         <label for="tiempo_preparacion" class="block text-sm text-gray-700 dark:text-gray-300">Tiempo de Preparación (minutos)</label>
                         <input type="number" id="tiempo_preparacion" name="tiempo_preparacion" value="<?php echo e(old('tiempo_preparacion', $receta->tiempo_preparacion)); ?>"

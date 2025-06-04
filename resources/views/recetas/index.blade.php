@@ -20,7 +20,7 @@
                 @endif
 
                 <form action="{{ route('recetas.search') }}" method="GET" class="mt-4 flex">
-                    <input type="text" name="query" value="{{ request('query') }}"
+                    <input type="text" name="query" value="{{ request('query') }}" class="placeholder-gray-500 dark:placeholder-gray-400"
                            placeholder="Buscar..."
                            class="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-l text-sm dark:bg-gray-800 dark:text-white">
                     <button type="submit"
@@ -47,30 +47,30 @@
                             <tbody>
                                 @foreach ($recetas as $receta)
                                     <tr class="border-b dark:border-gray-700">
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <a href="{{ route('recetas.show', $receta) }}" class="text-gray-800 dark:text-gray-100 underline">
                                                 {{ $receta->nombre }}
                                             </a>
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             {{ Str::limit($receta->descripcion, 100) }}
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             {{ $receta->tiempo_preparacion }} min
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             {{ ucfirst($receta->dificultad) }}
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             {{ $receta->user->name ?? 'Desconocido' }}
                                         </td>
-                                        <td class="px-2 py-1 text-center space-x-2">
+                                        <td class="px-2 py-1 text-center space-x-2 text-gray-700 dark:text-gray-300">
                                             {{-- Enlace para Ver Detalles --}}
-                                            <a href="{{ route('recetas.show', $receta) }}" class="underline">Ver</a>
+                                            <a href="{{ route('recetas.show', $receta) }}" class="underline ">Ver</a>
 
                                             {{-- AÑADE AQUÍ EL ENLACE/BOTÓN PARA DESCARGAR PDF --}}
                                             <a href="{{ route('recetas.pdf', $receta) }}"
-                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ms-5">
                                                 Descargar PDF
                                             </a>
                                             {{-- FIN DEL ENLACE/BOTÓN DE DESCARGA PDF --}}

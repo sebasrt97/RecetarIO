@@ -30,7 +30,7 @@
                 <?php endif; ?>
 
                 <form action="<?php echo e(route('recetas.search')); ?>" method="GET" class="mt-4 flex">
-                    <input type="text" name="query" value="<?php echo e(request('query')); ?>"
+                    <input type="text" name="query" value="<?php echo e(request('query')); ?>" class="placeholder-gray-500 dark:placeholder-gray-400"
                            placeholder="Buscar..."
                            class="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-l text-sm dark:bg-gray-800 dark:text-white">
                     <button type="submit"
@@ -57,35 +57,47 @@
                             <tbody>
                                 <?php $__currentLoopData = $recetas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $receta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr class="border-b dark:border-gray-700">
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="text-gray-800 dark:text-gray-100 underline">
                                                 <?php echo e($receta->nombre); ?>
 
                                             </a>
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e(Str::limit($receta->descripcion, 100)); ?>
 
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e($receta->tiempo_preparacion); ?> min
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e(ucfirst($receta->dificultad)); ?>
 
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e($receta->user->name ?? 'Desconocido'); ?>
 
                                         </td>
-                                        <td class="px-2 py-1 text-center space-x-2">
-                                            <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="underline">Ver</a>
+                                        <td class="px-2 py-1 text-center space-x-2 text-gray-700 dark:text-gray-300">
+                                            
+                                            <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="underline ">Ver</a>
+
+                                            
+                                            <a href="<?php echo e(route('recetas.pdf', $receta)); ?>"
+                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ms-5">
+                                                Descargar PDF
+                                            </a>
+                                            
+
                                             <?php if(Auth::check()): ?>
-                                                <a href="<?php echo e(route('recetas.edit', $receta)); ?>" class="underline">Editar</a>
+                                                
+                                                <a href="<?php echo e(route('recetas.edit', $receta)); ?>" class="underline ms-3">Editar</a>
+                                                
+                                                
                                                 <form action="<?php echo e(route('recetas.destroy', $receta)); ?>" method="POST" class="inline">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('DELETE'); ?>
-                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline">Eliminar</button>
+                                                    <button type="submit" onclick="return confirm('¿Eliminar?');" class="text-red-600 underline ms-3">Eliminar</button>
                                                 </form>
                                             <?php endif; ?>
                                         </td>
@@ -108,5 +120,4 @@
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?>
-<?php /**PATH /var/www/html/resources/views/recetas/index.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH /var/www/html/resources/views/recetas/index.blade.php ENDPATH**/ ?>
