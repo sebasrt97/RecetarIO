@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Receta;
-//use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Alergeno;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         // Llama a otros seeders
         $this->call([
             UserSeeder::class, // ¡Asegúrate de que esta línea esté aquí!
-            IngredienteSeeder::class,
             AlergenoSeeder::class,
+            IngredienteSeeder::class,          
             RecetaSeeder::class,// Importante el orden de los seeders, ya que RecetaSeeder depende de IngredienteSeeder 
            
             

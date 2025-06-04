@@ -91,16 +91,4 @@ class Receta extends Model
         return $costePorPorcion * (1 + $margenBeneficio);
     }
 
-    public function getAlergenos():array{
-        $alergenosarray = [];
-        foreach ($this->ingredientes as $ingrediente) {
-            foreach ($ingrediente->alergenos as $alergeno) {
-                if (!in_array($alergeno->nombre, $alergenosarray)) {
-                    $alergenosarray[] = $alergeno->nombre;
-                }
-            }
-        }
-        return $alergenosarray;
-    }
-
 }
