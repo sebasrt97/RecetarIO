@@ -75,14 +75,14 @@ unset($__errorArgs, $__bag); ?>
                         <div class="ingrediente-fila flex items-center space-x-2 mb-2 p-2 border border-gray-300 dark:border-gray-700 rounded">
                             <select name="ingredientes[INDEX][id]" required class="w-1/3 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
                                 <option value="">-- Selecciona un Ingrediente --</option>
-                                <?php if(isset($ingredientesDisponibles)): ?> 
+                                <?php if(isset($ingredientesDisponibles)): ?>
                                     <?php $__currentLoopData = $ingredientesDisponibles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ingrediente): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($ingrediente->id); ?>"><?php echo e($ingrediente->nombre); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
                             </select>
                             <input type="number" name="ingredientes[INDEX][cantidad_bruta]" step="0.01" min="0.01" placeholder="Cantidad" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <input type="text" name="ingredientes[INDEX][unidad_receta_medida]" placeholder="Unidad (ej: gr, ml, unidad)" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                            <input type="text" name="ingredientes[INDEX][unidad_receta_medida]" placeholder="Unidad (ej: kg, l, unidad)" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
                             <button type="button" class="ingrediente-eliminar-btn px-3 py-1 bg-red-500 text-white rounded text-xs">Eliminar</button>
                         </div>
                     </template>

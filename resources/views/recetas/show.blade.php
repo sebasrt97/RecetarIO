@@ -29,6 +29,15 @@
                     <p><span class="font-semibold">Dificultad:</span> <span class="capitalize">{{ $receta->dificultad }}</span></p>
                 </div>
 
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
+                    <h3 class="font-semibold mt-4">Merma y Escandallo:</h3>
+                    <p><span class="font-semibold">Coste Bruto Total:</span> {{number_format($receta->getCostebrutoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Neto Total:</span> {{number_format($receta->getCosteNetoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Porcion:</span> {{number_format($receta->getCostePorPorcion(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Neto Total:</span> {{number_format($receta->getCosteNetoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Precio Venta Por Porcion:</span> {{number_format($receta->getPrecioVentaPorPorcion(),2,',','.')}} €</p>
+                </div>
+
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
                     <h3 class="font-semibold mt-4">Ingredientes:</h3>
                     @if ($receta->ingredientes && count($receta->ingredientes) > 0)

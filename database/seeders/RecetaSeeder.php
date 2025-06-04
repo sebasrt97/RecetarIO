@@ -49,8 +49,8 @@ class RecetaSeeder extends Seeder
             $aceite = Ingrediente::where('nombre', 'Aceite de oliva')->first();
 
             $receta1->ingredientes()->attach([
-            $harina->id => ['cantidad_bruta' => 0.2, 'unidad_receta_medida' => 'gr'],
-            $tomate->id => ['cantidad_bruta' => 0.5, 'unidad_receta_medida' => 'gr'],
+            $harina->id => ['cantidad_bruta' => 0.2, 'unidad_receta_medida' => 'kg'],
+            $tomate->id => ['cantidad_bruta' => 0.5, 'unidad_receta_medida' => 'kg'],
             $aceite->id => ['cantidad_bruta' => 0.05, 'unidad_receta_medida' => 'l'],
             ]);
 
