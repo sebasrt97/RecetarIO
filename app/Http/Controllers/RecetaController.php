@@ -126,7 +126,7 @@ class RecetaController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Receta $receta)
-    {
+    {   
         // Asegúrate de que solo el propietario puede actualizar la receta
         if (Auth::id() !== $receta->user_id) {
             abort(403, 'No tienes permiso para actualizar esta receta.');
@@ -156,20 +156,28 @@ class RecetaController extends Controller
         $instruccionesArray = array_values($instruccionesArray); 
 
         // Manejo de la imagen: borra la antigua si se sube una nueva
-        $imageRuta = $receta->imagen; // Mantener la imagen existente por defecto
         if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {
-            // Si hay una imagen antigua, borrarla
-            if ($receta->imagen) {
-                Storage::disk('public')->delete($receta->imagen);
-            }
-            $imageRuta = $request->file('imagen')->store('imagenes', 'public');
-        } else if (isset($valido['imagen']) && is_null($valido['imagen'])) {
-            // Si el campo 'imagen' se envió como nulo (ej. checkbox "eliminar imagen" marcado)
-            if ($receta->imagen) {
-                Storage::disk('public')->delete($receta->imagen);
-            }
-            $imageRuta = null; // Marcar como sin imagen
-        }
+    // Si hay una imagen antigua, borrarla del almacenamiento
+    if ($receta->imagen) {
+        // *** LA CORRECCIÓN CLAVE ESTÁ AQUÍ ***
+        // $receta->imagen YA contiene 'imagenes/nombre_del_archivo.jpg'
+        // Por lo tanto, simplemente la pasamos directamente a delete()
+        Storage::disk('public')->delete($receta->imagen);
+    }
+    // Guarda la nueva imagen y asigna su nombre al modelo
+    // store() devuelve la ruta relativa al disco ('imagenes/nuevo_nombre.jpg'), que es lo que queremos en DB
+    $receta->imagen = $request->file('imagen')->store('imagenes', 'public');
+}
+// Condición para eliminar la imagen si el campo se envía como nulo
+// (Esta parte solo es relevante si tienes una forma de enviar 'null' para 'imagen' desde el formulario,
+//  como un checkbox "Eliminar imagen" o un campo oculto que se vacía.)
+else if (array_key_exists('imagen', $valido) && is_null($valido['imagen'])) {
+    if ($receta->imagen) {
+        // De nuevo, $receta->imagen YA contiene el prefijo, así que lo pasamos directamente
+        Storage::disk('public')->delete($receta->imagen);
+    }
+    $receta->imagen = null; // Marcar como sin imagen en la base de datos
+}
 
         $receta->update([
             'nombre' => $valido['nombre'],
@@ -180,7 +188,6 @@ class RecetaController extends Controller
             'porciones' => $valido['porciones'] ?? 1,
             'dificultad' => $valido['dificultad'] ?? 'fácil',
             'margen_beneficio' => $valido['margen_beneficio'] ?? 0,
-            'imagen' => $imageRuta // Usar la ruta determinada
         ]);
 
         if (!empty($valido['ingredientes'])) {

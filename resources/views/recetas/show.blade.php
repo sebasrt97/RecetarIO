@@ -15,7 +15,7 @@
                 <h1 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $receta->nombre }}</h1>
 
                 @if ($receta->imagen)
-                    <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen de {{ $receta->nombre }}" class="w-full max-w-md rounded">
+                    <img src="{{ asset('storage/imagenes/' . $receta->imagen) }}" alt="Imagen de {{ $receta->nombre }}" class="w-[300px] h-auto mx-auto block rounded">
                 @endif
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
