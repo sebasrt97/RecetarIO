@@ -29,7 +29,10 @@
                 <?php endif; ?>
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
-                    <p><span class="font-semibold">Descripción:</span> <?php echo e($receta->descripcion); ?></p>
+                    <p>
+                    <span class="font-semibold block mb-1">Descripción:</span>
+                    <span class="block mt-2 mb-1"><?php echo e($receta->descripcion); ?></span>
+                    </p>                   
                     <p><span class="font-semibold">Tiempo de Preparación:</span> <?php echo e($receta->tiempo_preparacion); ?> minutos</p>
                     <p><span class="font-semibold">Tiempo de Cocción:</span> <?php echo e($receta->tiempo_coccion); ?> minutos</p>
                     <p><span class="font-semibold">Porciones:</span> <?php echo e($receta->porciones); ?></p>
@@ -78,12 +81,12 @@
                 <p class="text-sm text-gray-800 dark:text-gray-200 mt-4">
                     Receta creada por: <span class="font-semibold"><?php echo e($receta->user->name ?? 'Usuario Desconocido'); ?></span>
                 </p>
-
+    
                 <div class="flex items-center gap-4 text-sm mt-4">
-                    <a href="<?php echo e(route('recetas.index')); ?>" class="text-blue-600 dark:text-blue-400">Volver al Listado</a>
+                    <a href="<?php echo e(route('recetas.index')); ?>" class="text-gray-800 dark:text-gray-200 underline">Volver al Listado</a>
 
                     <?php if(Auth::check()): ?>
-                        <a href="<?php echo e(route('recetas.edit', $receta)); ?>" class="text-yellow-600 dark:text-yellow-400">Editar Receta</a>
+                        <a href="<?php echo e(route('recetas.edit', $receta)); ?>" class="text-gray-800 dark:text-gray-200 underline">Editar Receta</a>
 
                         <form action="<?php echo e(route('recetas.destroy', $receta)); ?>" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" class="inline">
                             <?php echo csrf_field(); ?>

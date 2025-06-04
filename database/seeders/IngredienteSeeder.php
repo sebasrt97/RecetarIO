@@ -29,7 +29,6 @@ class IngredienteSeeder extends Seeder
             ['nombre' => 'Vino Blanco', 'precio' => 3.00, 'unidad_receta_medida' => 'l', 'porcentaje_merma' => 0.00], // Sulfitos
             ['nombre' => 'Harina de Altramuces', 'precio' => 4.00, 'unidad_receta_medida' => 'kg', 'porcentaje_merma' => 0.05], // Altramuces
             ['nombre' => 'Mejillones Frescos', 'precio' => 4.00, 'unidad_receta_medida' => 'kg', 'porcentaje_merma' => 0.10], // Moluscos
-            // Otros ingredientes generales que ya tenías
             ['nombre' => 'Azúcar', 'precio' => 0.30, 'unidad_receta_medida' => 'kg', 'porcentaje_merma' => 0.02],
             ['nombre' => 'Sal', 'precio' => 0.10, 'unidad_receta_medida' => 'kg', 'porcentaje_merma' => 0.01],
             ['nombre' => 'Levadura', 'precio' => 0.20, 'unidad_receta_medida' => 'kg', 'porcentaje_merma' => 0.03],
@@ -63,16 +62,18 @@ class IngredienteSeeder extends Seeder
         }
 
         $alergenosMap = Alergeno::all()->pluck('id', 'nombre')->toArray();
+        // coge todos los valores de la tabla Alergenos, se crea un una coleccion asociacitiva entre nombre
+        // e id y luego pasarlos a un array. 
 
         foreach ($ingredientes as $ingrediente) {
             $ingrediente = Ingrediente::firstOrCreate($ingrediente);
 
             $alergenosIds = [];
 
-            // Lógica para asignar alérgenos basada en el nombre del ingrediente
+
             switch ($ingrediente->nombre) {
                 case 'Harina de Trigo':
-                case 'Pasta': // Si 'Pasta' contiene gluten
+                case 'Pasta': 
                     if (isset($alergenosMap['Gluten'])) {
                         $alergenosIds[] = $alergenosMap['Gluten'];
                     }
@@ -88,7 +89,7 @@ class IngredienteSeeder extends Seeder
                     }
                     break;
                 case 'Salmón Fresco':
-                case 'Pescado': // Si tienes un ingrediente genérico 'Pescado'
+                case 'Pescado': 
                     if (isset($alergenosMap['Pescado'])) {
                         $alergenosIds[] = $alergenosMap['Pescado'];
                     }
@@ -98,11 +99,10 @@ class IngredienteSeeder extends Seeder
                         $alergenosIds[] = $alergenosMap['Cacahuetes'];
                     }
                     break;
-                case 'Salsa de Soja': // La salsa de soja puede tener soja y a veces gluten
+                case 'Salsa de Soja': 
                     if (isset($alergenosMap['Soja'])) {
                         $alergenosIds[] = $alergenosMap['Soja'];
                     }
-                    // Si tu salsa de soja también contiene gluten
                     if (isset($alergenosMap['Gluten'])) {
                         $alergenosIds[] = $alergenosMap['Gluten'];
                     }
@@ -115,7 +115,7 @@ class IngredienteSeeder extends Seeder
                     }
                     break;
                 case 'Almendras Laminadas':
-                case 'Nueces': // Si tienes un ingrediente genérico 'Nueces'
+                case 'Nueces':
                     if (isset($alergenosMap['Frutos de cáscara'])) {
                         $alergenosIds[] = $alergenosMap['Frutos de cáscara'];
                     }
@@ -151,8 +151,6 @@ class IngredienteSeeder extends Seeder
                     }
                     break;
             }
-
-            // Adjuntar los alérgenos al ingrediente
             if (!empty($alergenosIds)) {
                 $ingrediente->alergenos()->syncWithoutDetaching($alergenosIds);
             }

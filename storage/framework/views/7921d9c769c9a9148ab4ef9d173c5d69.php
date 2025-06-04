@@ -30,7 +30,7 @@
                 <?php endif; ?>
 
                 <form action="<?php echo e(route('recetas.search')); ?>" method="GET" class="mt-4 flex">
-                    <input type="text" name="query" value="<?php echo e(request('query')); ?>"
+                    <input type="text" name="query" value="<?php echo e(request('query')); ?>" class="placeholder-gray-500 dark:placeholder-gray-400"
                            placeholder="Buscar..."
                            class="flex-1 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-l text-sm dark:bg-gray-800 dark:text-white">
                     <button type="submit"
@@ -57,34 +57,34 @@
                             <tbody>
                                 <?php $__currentLoopData = $recetas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $receta): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr class="border-b dark:border-gray-700">
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="text-gray-800 dark:text-gray-100 underline">
                                                 <?php echo e($receta->nombre); ?>
 
                                             </a>
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e(Str::limit($receta->descripcion, 100)); ?>
 
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e($receta->tiempo_preparacion); ?> min
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e(ucfirst($receta->dificultad)); ?>
 
                                         </td>
-                                        <td class="px-2 py-1 text-center">
+                                        <td class="px-2 py-1 text-center text-gray-700 dark:text-gray-300">
                                             <?php echo e($receta->user->name ?? 'Desconocido'); ?>
 
                                         </td>
-                                        <td class="px-2 py-1 text-center space-x-2">
+                                        <td class="px-2 py-1 text-center space-x-2 text-gray-700 dark:text-gray-300">
                                             
-                                            <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="underline">Ver</a>
+                                            <a href="<?php echo e(route('recetas.show', $receta)); ?>" class="underline ">Ver</a>
 
                                             
                                             <a href="<?php echo e(route('recetas.pdf', $receta)); ?>"
-                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-3">
+                                               class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 ms-5">
                                                 Descargar PDF
                                             </a>
                                             

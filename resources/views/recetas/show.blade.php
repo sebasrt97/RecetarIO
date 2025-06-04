@@ -19,7 +19,10 @@
                 @endif
 
                 <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
-                    <p><span class="font-semibold">Descripción:</span> {{ $receta->descripcion }}</p>
+                    <p>
+                    <span class="font-semibold block mb-1">Descripción:</span>
+                    <span class="block mt-2 mb-1">{{ $receta->descripcion }}</span>
+                    </p>                   
                     <p><span class="font-semibold">Tiempo de Preparación:</span> {{ $receta->tiempo_preparacion }} minutos</p>
                     <p><span class="font-semibold">Tiempo de Cocción:</span> {{ $receta->tiempo_coccion }} minutos</p>
                     <p><span class="font-semibold">Porciones:</span> {{ $receta->porciones }}</p>
@@ -66,12 +69,12 @@
                 <p class="text-sm text-gray-800 dark:text-gray-200 mt-4">
                     Receta creada por: <span class="font-semibold">{{ $receta->user->name ?? 'Usuario Desconocido' }}</span>
                 </p>
-
+    
                 <div class="flex items-center gap-4 text-sm mt-4">
-                    <a href="{{ route('recetas.index') }}" class="text-blue-600 dark:text-blue-400">Volver al Listado</a>
+                    <a href="{{ route('recetas.index') }}" class="text-gray-800 dark:text-gray-200 underline">Volver al Listado</a>
 
                     @if (Auth::check())
-                        <a href="{{ route('recetas.edit', $receta) }}" class="text-yellow-600 dark:text-yellow-400">Editar Receta</a>
+                        <a href="{{ route('recetas.edit', $receta) }}" class="text-gray-800 dark:text-gray-200 underline">Editar Receta</a>
 
                         <form action="{{ route('recetas.destroy', $receta) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" class="inline">
                             @csrf
