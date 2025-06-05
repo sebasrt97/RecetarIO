@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('recetas', RecetaController::class);
 
     Route::get('/recetas/{receta}/pdf', [RecetaController::class, 'generarPdf'])->name('recetas.pdf');
+    Route::get('/recetas/{receta}', [RecetaController::class, 'show'])->name('recetas.show');
+    Route::get('/recetas/{receta}/edit', [RecetaController::class, 'edit'])->name('recetas.edit');
+    Route::put('/recetas/{receta}', [RecetaController::class, 'update'])->name('recetas.update');               
 });
 
 require __DIR__.'/auth.php';
