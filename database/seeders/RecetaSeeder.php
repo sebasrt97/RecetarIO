@@ -41,7 +41,7 @@ class RecetaSeeder extends Seeder
             'porciones' => 4,
             'dificultad' => 'Media',
             'margen_beneficio' => 0.25, 
-            'imagen' => 'imagenes/platop.png',
+            'imagen' => 'recetas/platop.png',
         ]);
 
             $harina = Ingrediente::where('nombre', 'Harina de Trigo')->first();
@@ -70,7 +70,7 @@ class RecetaSeeder extends Seeder
             'porciones' => 2,
             'dificultad' => 'Fácil',
             'margen_beneficio' => 0.40,
-            'imagen' => 'imagenes/ensalada-mediterranea.jpg',
+            'imagen' => 'recetas/ensalada-mediterranea.jpg',
         ]);
         $tomate = Ingrediente::where('nombre', 'Tomate')->first();
         $pepino = Ingrediente::where('nombre', 'Ajo')->first();
