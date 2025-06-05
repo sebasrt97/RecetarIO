@@ -1,109 +1,106 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl font-semibold text-black dark:text-white">
-            Detalles de la Receta: {{ $receta->nombre }}
-        </h2>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">Detalles de la Receta: {{ $receta->nombre }}</h2>
     </x-slot>
+    
+    @if(session('success'))
+    <alerta-mensaje mensaje="{{ session('success') }}"></alerta-mensaje>
+    @endif
 
-    <div class="py-10">
-        <div class="max-w-4xl mx-auto px-6">
-            <article class="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md p-8 space-y-8 text-base leading-relaxed text-black dark:text-gray-100">
-
-                @if (session('success'))
-                    <p class="bg-green-100 text-green-900 border border-green-400 p-3 rounded" role="status">
+    <div class="py-4">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 space-y-4">
+                <!-- @if (session('success'))
+                    <p class="bg-green-100 text-green-800 border border-green-400 p-2 rounded text-sm">
                         {{ session('success') }}
                     </p>
-                @endif
+                @endif -->
 
-                <header class="text-center space-y-4">
-                    <h1 class="text-3xl font-bold">{{ $receta->nombre }}</h1>
-
+                <h1 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $receta->nombre }}</h1>
                     @if ($receta->imagen && Storage::disk('public')->exists($receta->imagen))
-                        <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen de la receta {{ $receta->nombre }}" class="w-80 h-auto mx-auto rounded-lg shadow-md">
+                        <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen de {{ $receta->nombre }}" class="w-[300px] h-auto mx-auto block rounded">
                     @elseif (file_exists(public_path('logo/logo.png')))
-                        <img src="{{ asset('logo/logo.png') }}" alt="Logo de RecetarIO" class="w-80 h-auto mx-auto rounded-lg shadow-md">
+                        <img src="{{ asset('logo/logo.png') }}" alt="No contiene imagen" class="w-[300px] h-auto mx-auto block rounded">
                     @else
-                        <p class="text-gray-600 dark:text-gray-400">No hay imagen disponible para esta receta.</p>
+                        <p>No hay imagen disponible para la receta</p>
                     @endif
-                </header>
 
-                <section aria-labelledby="descripcion">
-                    <h3 id="descripcion" class="text-xl font-semibold">Descripción</h3>
-                    <p>{{ $receta->descripcion }}</p>
-                </section>
 
-                <section aria-labelledby="detalles-tiempo">
-                    <h3 id="detalles-tiempo" class="text-xl font-semibold">Detalles</h3>
-                    <ul class="space-y-1">
-                        <li><strong>Tiempo de Preparación:</strong> {{ $receta->tiempo_preparacion }} min</li>
-                        <li><strong>Tiempo de Cocción:</strong> {{ $receta->tiempo_coccion }} min</li>
-                        <li><strong>Porciones:</strong> {{ $receta->porciones }}</li>
-                        <li><strong>Dificultad:</strong> <span class="capitalize">{{ $receta->dificultad }}</span></li>
-                    </ul>
-                </section>
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
+                    <p>
+                    <span class="font-semibold block mb-1">Descripción:</span>
+                    <span class="block mt-2 mb-1">{{ $receta->descripcion }}</span>
+                    </p>                   
+                    <p><span class="font-semibold">Tiempo de Preparación:</span> {{ $receta->tiempo_preparacion }} minutos</p>
+                    <p><span class="font-semibold">Tiempo de Cocción:</span> {{ $receta->tiempo_coccion }} minutos</p>
+                    <p><span class="font-semibold">Porciones:</span> {{ $receta->porciones }}</p>
+                    <p><span class="font-semibold">Dificultad:</span> <span class="capitalize">{{ $receta->dificultad }}</span></p>
+                </div>
 
-                <section aria-labelledby="costes">
-                    <h3 id="costes" class="text-xl font-semibold">Merma y Escandallo</h3>
-                    <ul class="space-y-1">
-                        <li><strong>Coste Bruto Total:</strong> {{ number_format($receta->getCostebrutoTotal(), 2, ',', '.') }} €</li>
-                        <li><strong>Coste Neto Total:</strong> {{ number_format($receta->getCosteNetoTotal(), 2, ',', '.') }} €</li>
-                        <li><strong>Coste por Porción:</strong> {{ number_format($receta->getCostePorPorcion(), 2, ',', '.') }} €</li>
-                        <li><strong>Precio Venta por Porción:</strong> {{ number_format($receta->getPrecioVentaPorPorcion(), 2, ',', '.') }} €</li>
-                    </ul>
-                </section>
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-2">
+                    <h3 class="font-semibold mt-4">Merma y Escandallo:</h3>
+                    <p><span class="font-semibold">Coste Bruto Total:</span> {{number_format($receta->getCostebrutoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Neto Total:</span> {{number_format($receta->getCosteNetoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Porcion:</span> {{number_format($receta->getCostePorPorcion(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Coste Neto Total:</span> {{number_format($receta->getCosteNetoTotal(),2,',','.')}} €</p>
+                    <p><span class="font-semibold">Precio Venta Por Porcion:</span> {{number_format($receta->getPrecioVentaPorPorcion(),2,',','.')}} €</p>
+                </div>
 
-                <section aria-labelledby="ingredientes">
-                    <h3 id="ingredientes" class="text-xl font-semibold">Ingredientes</h3>
-                    @if ($receta->ingredientes->isNotEmpty())
-                        <ul class="list-disc list-inside space-y-1">
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
+                    <h3 class="font-semibold mt-4">Ingredientes:</h3>
+                    @if ($receta->ingredientes && count($receta->ingredientes) > 0)
+                        <ul class="list-disc list-inside">
                             @foreach ($receta->ingredientes as $ingrediente)
                                 <li>
-                                    {{ $ingrediente->pivot->cantidad_bruta }} {{ $ingrediente->pivot->unidad_receta_medida }} de {{ $ingrediente->nombre }}
-                                    @if ($ingrediente->alergenos->isNotEmpty())
-                                        (Alérgenos: {{ $ingrediente->alergenos->pluck('nombre')->join(', ') }})
-                                    @endif
-                                </li>
+                                {{ $ingrediente->pivot->cantidad_bruta }}
+                                {{ $ingrediente->pivot->unidad_receta_medida }} de
+                                {{ $ingrediente->nombre }}
+                                 @if ($ingrediente->alergenos->isNotEmpty())
+                                (Alérgenos:
+                                {{-- Usa pluck('nombre') para obtener solo los nombres y join(', ') para unirlos --}}
+                                **{{ $ingrediente->alergenos->pluck('nombre')->join(', ') }}**)
+                            @endif
+                            </li>
                             @endforeach
                         </ul>
                     @else
                         <p>No se especificaron ingredientes.</p>
                     @endif
-                </section>
+                </div>
 
-                <section aria-labelledby="instrucciones">
-                    <h3 id="instrucciones" class="text-xl font-semibold">Instrucciones</h3>
+                <div class="text-sm text-gray-800 dark:text-gray-200 space-y-1">
+                    <h3 class="font-semibold mt-4">Instrucciones:</h3>
+
+
                     @if (is_array($receta->instrucciones))
-                        <ol class="list-decimal list-inside space-y-1">
+                        <ol class="list-decimal list-inside">
                             @foreach ($receta->instrucciones as $instruccion)
                                 <li>{{ $instruccion }}</li>
-                            @endforeach
-                        </ol>
+                            @endforeach    
+                        </ol>                    
                     @else
-                        <p>{{ $receta->instrucciones }}</p>
+                        <p>Instrucción Única: [{{ $receta->instrucciones }}]</p>
                     @endif
-                </section>
+                </div>
 
-                <footer class="text-base mt-6">
-                    <p><strong>Receta creada por:</strong> {{ $receta->user->name ?? 'Usuario Desconocido' }}</p>
+                <p class="text-sm text-gray-800 dark:text-gray-200 mt-4">
+                    Receta creada por: <span class="font-semibold">{{ $receta->user->name ?? 'Usuario Desconocido' }}</span>
+                </p>
+    
+                <div class="flex items-center gap-4 text-sm mt-4">
+                    <a href="{{ route('recetas.index') }}" class="text-gray-800 dark:text-gray-200 underline">Volver al Listado</a>
 
-                    <nav class="flex flex-wrap gap-4 mt-4 text-sm" aria-label="Acciones">
-                        <a href="{{ route('recetas.index') }}" class="text-blue-700 dark:text-blue-400 underline focus:outline focus:ring-2 focus:ring-blue-500">Volver al Listado</a>
+                    @if (Auth::check())
+                        <a href="{{ route('recetas.edit', $receta) }}" class="text-gray-800 dark:text-gray-200 underline">Editar Receta</a>
 
-                        @if (Auth::check())
-                            <a href="{{ route('recetas.edit', $receta) }}" class="text-yellow-700 dark:text-yellow-400 underline focus:outline focus:ring-2 focus:ring-yellow-500">Editar Receta</a>
-
-                            <form action="{{ route('recetas.destroy', $receta) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-700 dark:text-red-400 underline focus:outline focus:ring-2 focus:ring-red-500">
-                                    Eliminar Receta
-                                </button>
-                            </form>
-                        @endif
-                    </nav>
-                </footer>
-
-            </article>
+                        <form action="{{ route('recetas.destroy', $receta) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta receta?');" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-600 dark:text-red-400">Eliminar Receta</button>
+                        </form>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

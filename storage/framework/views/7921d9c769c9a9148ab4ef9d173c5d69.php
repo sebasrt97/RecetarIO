@@ -14,6 +14,11 @@
         </h2>
      <?php $__env->endSlot(); ?>
 
+    <?php if(session('success')): ?>
+        <alerta-mensaje mensaje="<?php echo e(session('success')); ?>"></alerta-mensaje>
+    <?php endif; ?>
+
+
     <div class="py-6">
         <div class="max-w-6xl mx-auto px-6">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md p-6 text-gray-900 dark:text-gray-100">

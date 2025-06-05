@@ -6,7 +6,7 @@
     <title>Receta: {{ $receta->nombre }}</title>
     <style>
         :root {
-            --color-texto-principal: #1a1a1a;
+            --color-texto-principal:rgb(59, 34, 34);
         }
 
         body {
@@ -15,7 +15,7 @@
             line-height: 1.75;
             color: var(--color-texto-principal);
             background-color: #ffffff;
-            margin: 40px;
+            margin: 3rem;
         }
 
         h1 {
