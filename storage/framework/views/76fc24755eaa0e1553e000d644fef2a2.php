@@ -15,7 +15,7 @@
     <div class="py-4">
         <div class="max-w-xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
-                <form id="receta-form" method="POST" action="<?php echo e(route('recetas.update', $receta)); ?>" enctype="multipart/form-data" class="space-y-4">
+                <form action="<?php echo e(route('recetas.update', $receta->id)); ?>" method="POST" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                     <?php echo method_field('PUT'); ?>
 
@@ -87,9 +87,13 @@ unset($__errorArgs, $__bag); ?>
                                 </select>
                             <input type="number" name="ingredientes[INDEX][cantidad_bruta]" step="0.01" min="0.01" placeholder="Cantidad" required
                                         class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <input type="text" name="ingredientes[INDEX][unidad_receta_medida]" placeholder="Unidad (ej: kg, l, unidad)" required
-                                        class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <button type="button" class="ingrediente-eliminar-btn px-3 py-1 bg-red-500 text-white rounded text-xs">
+                            <select name="ingredientes[INDEX][unidad_receta_medida]" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                                <option value="">Medida:</option>
+                                <option value="kg">Kilo</option>
+                                <option value="l">Litros</option>
+                                <option value="unidad">Unidad</option>
+                            </select>
+                            <button type="button" class="ingrediente-eliminar-btn w-1/4 ml-1 px-2 py-1 bg-red-500 text-white rounded text-xs">
                                 Eliminar
                             </button>
                         </div>
@@ -173,11 +177,11 @@ unset($__errorArgs, $__bag); ?>
                     <div>
                         <label for="imagen" class="block text-sm text-gray-700 dark:text-gray-300">Imagen de la Receta</label>
                         <?php if($receta->imagen): ?>
-                            <img src="<?php echo e(asset('storage/' . $receta->imagen)); ?>" alt="Imagen actual de la receta" class="w-48 mb-2 rounded">
+                            <img src="<?php echo e(asset('storage/imagenes/' . $receta->imagen)); ?>" alt="Imagen actual de la receta" class="w-48 mb-2 rounded">
                             <p class="text-sm text-gray-600 dark:text-gray-400">Cambiar imagen:</p>
                         <?php endif; ?>
                         <input type="file" id="imagen" name="imagen" accept="image/*"
-                               class="text-sm text-gray-700 dark:text-gray-300">
+                            class="text-sm text-gray-700 dark:text-gray-300">
                         <?php $__errorArgs = ['imagen'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -245,6 +249,13 @@ unset($__errorArgs, $__bag); ?>
 
                 if (inputCantidad) inputCantidad.value = ingredienteDato.cantidad_bruta || '';
                 if (inputUnidad) inputUnidad.value = ingredienteDato.unidad_receta_medida || '';
+            }
+
+            if(ingredienteDato){
+                const selectMedida = filaDiv.querySelector('select[name*="[unidad_receta_medida]"]');
+                if (selectMedida && ingredienteDato.unidad_receta_medida) {
+                    selectMedida.value = ingredienteDato.unidad_receta_medida;
+                }   
             }
 
             // Añadir el listener para el botón de eliminar

@@ -6,7 +6,7 @@
     <div class="py-4">
         <div class="max-w-xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
-                <form id="receta-form" method="POST" action="{{ route('recetas.store') }}" enctype="multipart/form-data" class="space-y-4">
+                <form class="receta-form" method="POST" action="{{ route('recetas.store') }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
                     <div>
@@ -30,13 +30,13 @@
                     <div>
                         <label class="block text-sm text-gray-700 dark:text-gray-300 mb-2">Ingredientes:</label>
                         <div id="ingredientes-contenedor"></div>
-                        <button type="button" id="ingrediente-agregar-btn" class="mt-2 px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded">Añadir Ingrediente</button>
+                        <button type="button" id="ingrediente-agregar-btn" class="mt-2 px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white rounded">Añadir Ingrediente</button>
                         @error('ingredientes') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     </div>
 
                     <template id="ingrediente-filas">
                         <div class="ingrediente-fila flex items-center space-x-2 mb-2 p-2 border border-gray-300 dark:border-gray-700 rounded">
-                            <select name="ingredientes[INDEX][id]" required class="w-1/3 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                            <select name="ingredientes[INDEX][id]" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
                                 <option value="">-- Selecciona un Ingrediente --</option>
                                 @isset($ingredientesDisponibles)
                                     @foreach($ingredientesDisponibles as $ingrediente)
@@ -44,9 +44,14 @@
                                     @endforeach
                                 @endisset
                             </select>
-                            <input type="number" name="ingredientes[INDEX][cantidad_bruta]" step="0.01" min="0.01" placeholder="Cantidad" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <input type="text" name="ingredientes[INDEX][unidad_receta_medida]" placeholder="Unidad (ej: kg, l, unidad)" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <button type="button" class="ingrediente-eliminar-btn px-3 py-1 bg-red-500 text-white rounded text-xs">Eliminar</button>
+                            <input type="number" name="ingredientes[INDEX][cantidad_bruta]" step="0.05" min="0.01" placeholder="Cantidad" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-1 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                            <select name="ingredientes[INDEX][unidad_receta_medida]" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                                <option value="">Medida:</option>
+                                <option value="kg">Kilo</option>
+                                <option value="l">Litros</option>
+                                <option value="unidad">Unidad</option>
+                            </select>
+                            <button type="button" class="ingrediente-eliminar-btn w-1/4 ml-1 px-2 py-1 bg-red-500 dark:bg-red-700 text-white rounded text-xs">Eliminar</button>
                         </div>
                     </template>
 

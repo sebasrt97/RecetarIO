@@ -6,7 +6,7 @@
     <div class="py-4">
         <div class="max-w-xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
-                <form id="receta-form" method="POST" action="{{ route('recetas.update', $receta) }}" enctype="multipart/form-data" class="space-y-4">
+                <form class="receta-form" method="POST" action="{{ route('recetas.update', $receta) }}" enctype="multipart/form-data" class="space-y-4">
                     @csrf
                     @method('PUT')
 
@@ -50,9 +50,13 @@
                                 </select>
                             <input type="number" name="ingredientes[INDEX][cantidad_bruta]" step="0.01" min="0.01" placeholder="Cantidad" required
                                         class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <input type="text" name="ingredientes[INDEX][unidad_receta_medida]" placeholder="Unidad (ej: kg, l, unidad)" required
-                                        class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
-                            <button type="button" class="ingrediente-eliminar-btn px-3 py-1 bg-red-500 text-white rounded text-xs">
+                            <select name="ingredientes[INDEX][unidad_receta_medida]" required class="w-1/4 border border-gray-300 dark:border-gray-600 px-2 py-1 rounded text-sm dark:bg-gray-800 dark:text-white">
+                                <option value="">Medida:</option>
+                                <option value="kg">Kilo</option>
+                                <option value="l">Litros</option>
+                                <option value="unidad">Unidad</option>
+                            </select>
+                            <button type="button" class="ingrediente-eliminar-btn w-1/4 ml-1 px-2 py-1 bg-red-500 text-white rounded text-xs">
                                 Eliminar
                             </button>
                         </div>
@@ -101,11 +105,11 @@
                     <div>
                         <label for="imagen" class="block text-sm text-gray-700 dark:text-gray-300">Imagen de la Receta</label>
                         @if ($receta->imagen)
-                            <img src="{{ asset('storage/' . $receta->imagen) }}" alt="Imagen actual de la receta" class="w-48 mb-2 rounded">
+                            <img src="{{ asset('storage/imagenes/' . $receta->imagen) }}" alt="Imagen actual de la receta" class="w-48 mb-2 rounded">
                             <p class="text-sm text-gray-600 dark:text-gray-400">Cambiar imagen:</p>
                         @endif
                         <input type="file" id="imagen" name="imagen" accept="image/*"
-                               class="text-sm text-gray-700 dark:text-gray-300">
+                            class="text-sm text-gray-700 dark:text-gray-300">
                         @error('imagen') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     </div>
 
@@ -166,6 +170,13 @@
 
                 if (inputCantidad) inputCantidad.value = ingredienteDato.cantidad_bruta || '';
                 if (inputUnidad) inputUnidad.value = ingredienteDato.unidad_receta_medida || '';
+            }
+
+            if(ingredienteDato){
+                const selectMedida = filaDiv.querySelector('select[name*="[unidad_receta_medida]"]');
+                if (selectMedida && ingredienteDato.unidad_receta_medida) {
+                    selectMedida.value = ingredienteDato.unidad_receta_medida;
+                }   
             }
 
             // Añadir el listener para el botón de eliminar
