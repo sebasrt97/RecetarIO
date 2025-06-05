@@ -15,7 +15,7 @@
     <div class="py-4">
         <div class="max-w-xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
-                <form action="<?php echo e(route('recetas.update', $receta->id)); ?>" method="POST" enctype="multipart/form-data">
+                <form class="receta-form" method="POST" action="<?php echo e(route('recetas.update', $receta)); ?>" enctype="multipart/form-data" class="space-y-4">
                     <?php echo csrf_field(); ?>
                     <?php echo method_field('PUT'); ?>
 
