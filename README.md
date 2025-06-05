@@ -81,6 +81,8 @@ git checkout main
 *Ejecutar php artisan migrate:fresh --seed (¡borra datos!).
 *Crear storage:link.
 
+#En otro bash para vite
+* npm run dev
 
 #Ajustar Permisos (Importante)
 # Si hay errores de "Permission denied" en storage o bootstrap/cache, ejecuta en tu host:
