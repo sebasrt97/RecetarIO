@@ -3,6 +3,11 @@
         <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">Crear Nueva Receta</h2>
     </x-slot>
 
+    @if(session('success'))
+        <alerta-mensaje mensaje="{{ session('success') }}"></alerta-mensaje>
+    @endif
+
+
     <div class="py-4">
         <div class="max-w-xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4">
@@ -138,5 +143,7 @@
 
             botonAgregar.addEventListener('click', () => agregarFila());
         });
+
+
     </script>
 </x-app-layout>

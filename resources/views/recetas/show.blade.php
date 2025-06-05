@@ -2,15 +2,19 @@
     <x-slot name="header">
         <h2 class="text-lg font-medium text-gray-800 dark:text-gray-100">Detalles de la Receta: {{ $receta->nombre }}</h2>
     </x-slot>
+    
+    @if(session('success'))
+    <alerta-mensaje mensaje="{{ session('success') }}"></alerta-mensaje>
+    @endif
 
     <div class="py-4">
         <div class="max-w-4xl mx-auto px-4">
             <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded p-4 space-y-4">
-                @if (session('success'))
+                <!-- @if (session('success'))
                     <p class="bg-green-100 text-green-800 border border-green-400 p-2 rounded text-sm">
                         {{ session('success') }}
                     </p>
-                @endif
+                @endif -->
 
                 <h1 class="text-xl font-semibold text-gray-900 dark:text-white">{{ $receta->nombre }}</h1>
                     @if ($receta->imagen && Storage::disk('public')->exists($receta->imagen))

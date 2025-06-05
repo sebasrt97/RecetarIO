@@ -204,7 +204,7 @@ else if (array_key_exists('imagen', $valido) && is_null($valido['imagen'])) {
             $receta->ingredientes()->sync([]);
         }
 
-        return redirect()->route('recetas.index')->with('success', 'Receta actualizada exitosamente.');
+        return redirect()->route('recetas.show', $receta)->with('success', 'Receta actualizada exitosamente.');
     }
     
 
