@@ -31,14 +31,11 @@ Requisitos Previos
 ---WSL2 (para Windows)
 
 #Primera vez:
-#Clonar e instalación del proyecto desde la rama 'dev'
+#Clonar e instalación del proyecto desde la rama 'main'
 
 git clone https://github.com/sebasrt97/RecetarIO
 cd RecetarIO
 git checkout main
-
-#Se ejecuta el scritp strar.sh
-./start.sh
 
 #Inicializar el entorno, usar el script start.sh:
 ./start.sh
@@ -65,8 +62,9 @@ docker-compose restart recetario_app
 ./stop.sh
 
 #Pruebas: 
-http://localhost:8000/register para crear un nuevo usuario.
-http://localhost:8000/login para iniciar sesión.
+http://localhost:8000/ para el login y el boton de registrar
+#Usurio: "admin@example.com" para ver ya subida los recetas
+#Contraseña: 123456
 http://localhost:8080 para gestionar directamente la base de datos.
 
 #Autenticación base de datos:
